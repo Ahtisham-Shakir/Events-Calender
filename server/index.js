@@ -45,7 +45,23 @@ app.post('/addevent', (req, res) => {
             res.status(201).send('Event added Successfully');
         }
     })
+})
 
+// Updating data
+app.put('/update', (req, res) => {
+    const { _id, eventName, eventDescription, eventType, privateUsers } = req.body;
+    eventModal.findById(_id, async (err, event) => {
+        if (!err) {
+            event.eventName = eventName;
+            event.eventDescription = eventDescription;
+            event.eventType = eventType;
+            event.privateUsers = privateUsers;
+            await event.save();
+            res.send('Event Updated Successfully')
+        }else{
+            res.send('Getting Errors from Server')
+        }
+    })
 })
 
 // Listen

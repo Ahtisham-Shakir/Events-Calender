@@ -3,11 +3,17 @@ import { useGlobalState } from '../../StateProvider'
 import { Link } from 'react-router-dom'
 
 function EventsTable() {
-    const { eventList, fetchData } = useGlobalState();
+    const { eventList, fetchData, setIsEditing, setData } = useGlobalState();
 
     useEffect(() => {
         fetchData();
     }, [fetchData])
+
+    const update = (id)=>{
+        const updateEvent = eventList.find((event)=> event._id === id )
+        setData(updateEvent);
+        setIsEditing(true);
+    }
 
 
     return (
@@ -26,14 +32,15 @@ function EventsTable() {
                     {eventList.length === 0 ? (
                         <tr>There is no event Please create one!</tr>
                     ) : (
-                        eventList.map(({ eventName, eventDescription, eventDate, eventType }, i) => (
+                        eventList.map(({ eventName, eventDescription, eventDate, eventType, _id }, i) => (
                             <tr key={i}>
                                 <td>{i + 1}</td>
                                 <td>{eventName}</td>
                                 <td>{eventDescription}</td>
                                 <td>{eventDate}</td>
                                 <td>{eventType}</td>
-                                <td>Edit, Delete</td>
+                                <td><Link to='/addevent' className='btn btn-primary me-1' onClick={()=>update(_id)}>Edit</Link>
+                                <Link to='/' className='btn btn-danger'>Delete</Link></td>
                             </tr>
 
                         ))
@@ -41,7 +48,7 @@ function EventsTable() {
                     }
                 </tbody>
             </table>
-            <Link to={'/addevent'} className='btn btn-primary ms-auto'>Create Event</Link>
+            <Link to={'/addevent'} className='btn btn-primary'>Create Event</Link>
         </div>
     )
 }

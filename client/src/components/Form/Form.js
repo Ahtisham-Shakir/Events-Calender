@@ -6,7 +6,7 @@ const Form = () => {
     const optionsData = [{ name: 'option 1', id: 1 }, { name: 'option 2', id: 2 }];
     const [options] = useState(optionsData);
 
-    const { data, setData, handleSubmit } = useGlobalState();
+    const { data, setData, handleSubmit, isEditing } = useGlobalState();
 
     const handleChange = (e) => {
         setData(state => ({
@@ -76,7 +76,7 @@ const Form = () => {
 
 
                     <div className="col-12 text-center">
-                        <button type="submit" className="btn btn-primary">submit</button>
+                        <button type="submit" className="btn btn-primary">{isEditing? 'update Event':'Add Event'}</button>
                     </div>
                 </form>
             </div>

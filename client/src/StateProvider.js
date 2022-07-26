@@ -17,6 +17,8 @@ const StateProvider = ({ children }) => {
 
     const [eventList, setEventList] = useState([]);
 
+    const [isEditing, setIsEditing] = useState(false);
+
 
     // Function to show toast
     const showToast = (type, message) => {
@@ -78,7 +80,27 @@ const StateProvider = ({ children }) => {
     // Function to submit data into the database
     const handleSubmit = async (e) => {
         e.preventDefault();
-        if (validate(data)) {
+
+        // Updating event
+        if(validate(data) && isEditing){
+            axios.put('/update', data).then(()=>{
+                showToast('success', 'Event Updated Successfully!');
+                setIsEditing(false);
+                setData({
+                    eventName: '',
+                    eventDescription: '',
+                    eventType: 'public',
+                    privateUsers: []
+                })
+                fetchData();
+            }).catch(()=>{
+                showToast('error', 'Getting Server Error Try Again later!')
+            })
+        }
+
+
+        // Adding new Event
+        else if (validate(data)) {
             const date = new Date();
             const dateStr = `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`;
             const newData = {
@@ -104,7 +126,8 @@ const StateProvider = ({ children }) => {
     return <stateContext.Provider value={{
         data, setData,
         validate, handleSubmit,
-        eventList, fetchData
+        eventList, fetchData,
+        isEditing, setIsEditing
     }}>
         {children}
     </stateContext.Provider>

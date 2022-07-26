@@ -86,7 +86,14 @@ const StateProvider = ({ children }) => {
                 eventDate: dateStr
             }
             axios.post('/addevent', newData).then((res) => {
-                showToast('success', 'Event has been created successfully!')
+                showToast('success', 'Event has been created successfully!');
+                setData({
+                    eventName: '',
+                    eventDescription: '',
+                    eventType: 'public',
+                    privateUsers: []
+                })
+                fetchData();
             }).catch((err) => {
                 showToast('error', 'There is some issue try again later!')
             })
@@ -96,7 +103,8 @@ const StateProvider = ({ children }) => {
 
     return <stateContext.Provider value={{
         data, setData,
-        validate, handleSubmit
+        validate, handleSubmit,
+        eventList, fetchData
     }}>
         {children}
     </stateContext.Provider>

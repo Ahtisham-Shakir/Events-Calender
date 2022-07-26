@@ -1,6 +1,15 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import { useGlobalState } from '../../StateProvider'
+import { Link } from 'react-router-dom'
 
 function EventsTable() {
+    const { eventList, fetchData } = useGlobalState();
+
+    useEffect(() => {
+        fetchData();
+    }, [fetchData])
+
+
     return (
         <div className='container box w-75 my-5'>
             <h2 className='text-center'>Events List</h2>
@@ -14,24 +23,25 @@ function EventsTable() {
                     <th>Actions</th>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>Hackathon</td>
-                        <td>Description of this event</td>
-                        <td>7/28/2022</td>
-                        <td>Public</td>
-                        <td>Edit, Delete</td>
-                    </tr>
-                    <tr>
-                        <td>2</td>
-                        <td>Birthday</td>
-                        <td>Description of this event</td>
-                        <td>7/30/2022</td>
-                        <td>Private</td>
-                        <td>Edit, Delete</td>
-                    </tr>
+                    {eventList.length === 0 ? (
+                        <tr>There is no event Please create one!</tr>
+                    ) : (
+                        eventList.map(({ eventName, eventDescription, eventDate, eventType }, i) => (
+                            <tr key={i}>
+                                <td>{i + 1}</td>
+                                <td>{eventName}</td>
+                                <td>{eventDescription}</td>
+                                <td>{eventDate}</td>
+                                <td>{eventType}</td>
+                                <td>Edit, Delete</td>
+                            </tr>
+
+                        ))
+                    )
+                    }
                 </tbody>
             </table>
+            <Link to={'/addevent'} className='btn btn-primary ms-auto'>Create Event</Link>
         </div>
     )
 }

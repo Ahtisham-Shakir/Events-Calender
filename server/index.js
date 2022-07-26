@@ -58,10 +58,17 @@ app.put('/update', (req, res) => {
             event.privateUsers = privateUsers;
             await event.save();
             res.send('Event Updated Successfully')
-        }else{
+        } else {
             res.send('Getting Errors from Server')
         }
     })
+})
+
+// Deleting data
+app.delete('/delete/:id', async (req, res) => {
+    const id = req.params.id;
+    await eventModal.findByIdAndRemove(id).exec();
+    res.status(200).send("Deleted Successfully");
 })
 
 // Listen

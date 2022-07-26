@@ -127,7 +127,8 @@ const StateProvider = ({ children }) => {
         data, setData,
         validate, handleSubmit,
         eventList, fetchData,
-        isEditing, setIsEditing
+        isEditing, setIsEditing,
+        showToast
     }}>
         {children}
     </stateContext.Provider>

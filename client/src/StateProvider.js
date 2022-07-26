@@ -18,6 +18,7 @@ const StateProvider = ({ children }) => {
     const [eventList, setEventList] = useState([]);
 
     const [isEditing, setIsEditing] = useState(false);
+    const [search, setSearch] = useState('')
 
 
     // Function to show toast
@@ -82,8 +83,8 @@ const StateProvider = ({ children }) => {
         e.preventDefault();
 
         // Updating event
-        if(validate(data) && isEditing){
-            axios.put('/update', data).then(()=>{
+        if (validate(data) && isEditing) {
+            axios.put('/update', data).then(() => {
                 showToast('success', 'Event Updated Successfully!');
                 setIsEditing(false);
                 setData({
@@ -93,7 +94,7 @@ const StateProvider = ({ children }) => {
                     privateUsers: []
                 })
                 fetchData();
-            }).catch(()=>{
+            }).catch(() => {
                 showToast('error', 'Getting Server Error Try Again later!')
             })
         }
@@ -126,9 +127,10 @@ const StateProvider = ({ children }) => {
     return <stateContext.Provider value={{
         data, setData,
         validate, handleSubmit,
-        eventList, fetchData,
+        eventList, setEventList, fetchData,
         isEditing, setIsEditing,
-        showToast
+        showToast,
+        search, setSearch
     }}>
         {children}
     </stateContext.Provider>

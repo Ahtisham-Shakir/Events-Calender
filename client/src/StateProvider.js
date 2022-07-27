@@ -7,6 +7,7 @@ const stateContext = createContext();
 
 const StateProvider = ({ children }) => {
 
+    const [user, setUser] = useState(null);
     // State to get values from user
     const [data, setData] = useState({
         eventName: '',
@@ -140,7 +141,8 @@ const StateProvider = ({ children }) => {
         eventList, setEventList, fetchData,
         isEditing, setIsEditing,
         showToast,
-        search, setSearch
+        search, setSearch,
+        user, setUser
     }}>
         {children}
     </stateContext.Provider>

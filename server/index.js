@@ -2,6 +2,7 @@ import express from 'express';
 import mongoose from 'mongoose';
 import cors from 'cors'
 import eventModal from './eventModal.js';
+import userModel from './userModel.js';
 
 // Config
 const app = express();
@@ -70,6 +71,45 @@ app.delete('/delete/:id', async (req, res) => {
     await eventModal.findByIdAndRemove(id).exec();
     res.status(200).send("Deleted Successfully");
 })
+
+
+
+
+// Routers for login and registeration
+app.post('/register', async(req, res)=>{
+    const newUser = req.body;
+
+    const isExist = await userModel.findOne({username: newUser.username});
+
+    if(isExist){
+        res.json('User Already Exist');
+    }else{
+        userModel.create(newUser, (err, data)=>{
+            if(err){
+                res.json('internal issues please try again later')
+            }
+            else{
+                res.json('User has been registered successfully')
+            }
+        })
+    }
+})
+
+
+app.post('/login', async(req,res)=>{
+    const loginUser = req.body;
+    const isExist = await userModel.findOne({username: loginUser.username, password: loginUser.password});
+    if(isExist){
+        res.json({message:"User login successfully", username: `${loginUser.username}`});
+    }
+    else{
+        res.json({message: 'invalid email or password'});
+    }
+})
+
+
+
+
 
 // Listen
 app.listen(port, () => {

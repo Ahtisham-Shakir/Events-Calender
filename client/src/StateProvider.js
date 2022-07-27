@@ -68,6 +68,16 @@ const StateProvider = ({ children }) => {
             }
             return true
         }
+
+        else{
+            for (const key in data) {
+                if (data[key] === '') {
+                    showToast('error', 'Please fill all the fields!')
+                    return false
+                }
+            }
+            return true
+        }
     }
 
 

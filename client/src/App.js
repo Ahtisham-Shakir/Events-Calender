@@ -7,6 +7,7 @@ import {BrowserRouter as Router, Routes, Route} from 'react-router-dom'
 import EventsTable from './components/EventsTable/EventsTable';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Login from './components/Login/Login';
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
       <Routes>
         <Route path='/' element={<EventsTable/>}/>
         <Route path='/addevent' element={<Form/>}/>
+        <Route path='/login' element={<Login/>}/>
       </Routes>
     </Router>
    </div>

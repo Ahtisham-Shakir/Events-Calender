@@ -1,10 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Multiselect from 'multiselect-react-dropdown';
 import { useGlobalState } from '../../StateProvider';
+import axios from '../../axios'
 
 const Form = () => {
-    const optionsData = [{ name: 'option 1', id: 1 }, { name: 'option 2', id: 2 }];
-    const [options] = useState(optionsData);
+
+    const [options, setOptions] = useState([]);
+    useEffect( () => {
+         axios.get('/getusers').then((res)=>{
+            setOptions(res.data)
+         })
+    }, [])
 
     const { data, setData, handleSubmit, isEditing } = useGlobalState();
 
@@ -69,14 +75,14 @@ const Form = () => {
                         data.eventType === 'private'
                         &&
                         <div className='col-md-6'>
-                            <Multiselect options={options} displayValue="name" onSelect={onSelect} onRemove={onRemove} className='bg-light' />
+                            <Multiselect options={options} displayValue="username" onSelect={onSelect} onRemove={onRemove} className='bg-light' />
                         </div>
                     }
 
 
 
                     <div className="col-12 text-center">
-                        <button type="submit" className="btn btn-primary">{isEditing? 'update Event':'Add Event'}</button>
+                        <button type="submit" className="btn btn-primary">{isEditing ? 'update Event' : 'Add Event'}</button>
                     </div>
                 </form>
             </div>

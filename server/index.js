@@ -98,6 +98,7 @@ app.post('/register', async(req, res)=>{
 
 app.post('/login', async(req,res)=>{
     const loginUser = req.body;
+
     const isExist = await userModel.findOne({username: loginUser.username, password: loginUser.password});
     if(isExist){
         res.json({message:"User login successfully", username: `${loginUser.username}`});
@@ -105,6 +106,16 @@ app.post('/login', async(req,res)=>{
     else{
         res.json({message: 'invalid email or password'});
     }
+})
+
+app.get('/getusers', (req, res)=>{
+    userModel.find({}, (err, data)=>{
+        if(err){
+            res.status(500).send(err);
+        }else{
+            res.status(200).send(data);
+        }
+    })
 })
 
 

@@ -89,7 +89,7 @@ app.post('/register', async(req, res)=>{
                 res.json('internal issues please try again later')
             }
             else{
-                res.json('User has been registered successfully')
+                res.json({message:'User has been registered successfully', username: data.username})
             }
         })
     }
@@ -101,7 +101,8 @@ app.post('/login', async(req,res)=>{
 
     const isExist = await userModel.findOne({username: loginUser.username, password: loginUser.password});
     if(isExist){
-        res.json({message:"User login successfully", username: `${loginUser.username}`});
+        console.log(isExist)
+        res.json({message:"User login successfully", username: loginUser.username});
     }
     else{
         res.json({message: 'invalid email or password'});

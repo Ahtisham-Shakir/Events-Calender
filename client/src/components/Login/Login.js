@@ -8,7 +8,7 @@ function Login() {
         password: ''
     })
 
-    const { showToast, validate, user, setUser } = useGlobalState();
+    const { showToast, validate, setUser } = useGlobalState();
 
     const handleChange = (e) => {
         setUserData(state => ({
@@ -32,14 +32,14 @@ function Login() {
                 showToast('error', 'Getting some issues try again later')
             })
         }
-        console.log('login with: ' + user);
     }
 
     // function to register user
     const register = () => {
         if (validate(userData)) {
             axios.post('/register', userData).then((res) => {
-                showToast('success', res.data);
+                showToast('success', res.data.message);
+                setUser(res.data.username);
                 setUserData({
                     username: '',
                     password: ''

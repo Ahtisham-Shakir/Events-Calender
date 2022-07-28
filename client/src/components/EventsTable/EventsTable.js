@@ -47,7 +47,19 @@ function EventsTable() {
                     ) : (
                         filteredList.map(({ eventName, eventDescription, eventDate, eventType, _id, privateUsers }, i) => {
                             const privateArray = privateUsers.map(privateUser=> privateUser.username)
-                            if(eventType === 'private'){
+                            if(user === 'admin'){
+                                 return <tr key={_id}>
+                                <td>{i + 1}</td>
+                                <td>{eventName}</td>
+                                <td>{eventDescription}</td>
+                                <td>{eventDate}</td>
+                                <td>{eventType}</td>
+                                <td><Link to='/addevent' className='btn btn-primary me-1' onClick={() => update(_id)}>Edit</Link>
+                                    <Link to='/' className='btn btn-danger' onClick={() => deleteEvent(_id)}>Delete</Link></td>
+                            </tr>
+                            }
+
+                           else if(eventType === 'private'){
                                 
                                 if(privateArray.includes(user)){
                                  return <tr key={_id}>
@@ -62,6 +74,7 @@ function EventsTable() {
                                 }else{ 
                                     return <tr key={_id}>Private Entery</tr>
                                 }
+                                
                             }else{
                                 return <tr key={_id}>
                                 <td>{i + 1}</td>
